@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verde Pureza & Botanicals | Cosméticos Naturais & Alta Performance</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts (Playfair Display & Plus Jakarta Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            botanical: {
+              50: '#f2f8f4',
+              100: '#e1efe5',
+              200: '#c5e0cd',
+              300: '#9cc9a8',
+              400: '#6ea97d',
+              500: '#488d59',
+              600: '#367144', // Salvia vibrante
+              700: '#2b5a37', // Verde Oliva escuro
+              800: '#24482e', // Floresta
+              900: '#1e3c27', // Esmeralda Profunda
+              950: '#0d2013', // Quase preto botânico
+            },
+            cream: {
+              50: '#fdfbf7',
+              100: '#f9f5ec',
+              200: '#f3eada',
+              300: '#e7d8be',
+            }
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f9f5ec;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #367144;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2b5a37;
+    }
+    .glass-header {
+      background: rgba(253, 251, 247, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, rgba(13, 32, 19, 0.75) 0%, rgba(36, 72, 46, 0.55) 100%);
+    }
+  </style>
+</head>
+<body class="bg-cream-50 text-botanical-950 font-sans antialiased selection:bg-botanical-200 selection:text-botanical-900">
+
+  <!-- ==================== HEADER / NAVIGATION ==================== -->
+  <header class="fixed top-0 left-0 right-0 z-40 glass-header border-b border-botanical-900/10 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo Botânico -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-full bg-botanical-700 text-cream-50 flex items-center justify-center text-lg shadow-md group-hover:bg-botanical-600 transition-colors">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-serif text-lg sm:text-xl font-bold tracking-tight text-botanical-950">VERDE PUREZA</span>
+            <span class="text-[9px] uppercase tracking-[0.25em] text-botanical-600 font-semibold">& Botanicals</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-botanical-900">
+          <a href="#produtos" class="hover:text-botanical-600 transition-colors">Produtos</a>
+          <a href="#filosofia" class="hover:text-botanical-600 transition-colors">Nossa Filosofia</a>
+          <a href="#ingredientes" class="hover:text-botanical-600 transition-colors">Ingredientes Verdes</a>
+          <a href="#avaliacoes" class="hover:text-botanical-600 transition-colors">Depoimentos</a>
+          <a href="#contato" class="hover:text-botanical-600 transition-colors">Contato</a>
+        </nav>
+
+        <!-- Right Header Actions -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <!-- Clube Verde Quick Trigger -->
+          <button onclick="openModal('newsletterModal')" class="hidden sm:flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-botanical-700 bg-botanical-100/80 hover:bg-botanical-200 border border-botanical-300 px-4 py-2 rounded-full transition-colors">
+            <i class="fa-solid fa-gift text-botanical-600"></i>
+            <span>15% OFF</span>
+          </button>
+
+          <!-- Cart Button -->
+          <button onclick="toggleCartDrawer()" class="relative bg-botanical-800 hover:bg-botanical-700 text-cream-50 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all flex items-center gap-2.5 shadow-md shadow-botanical-900/10">
+            <i class="fa-solid fa-bag-shopping text-botanical-200"></i>
+            <span class="hidden xs:inline">Carrinho</span>
+            <span id="cartCountBadge" class="bg-botanical-400 text-botanical-950 text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </button>
+
+          <!-- Mobile Menu Toggle Button -->
+          <button id="mobileMenuBtn" class="md:hidden text-2xl text-botanical-900 p-2 focus:outline-none" aria-label="Abrir Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobileMenu" class="hidden md:hidden bg-cream-100 border-b border-botanical-900/10 px-4 pt-3 pb-6 space-y-3">
+      <a href="#produtos" onclick="closeMobileMenu()" class="block py-2 text-botanical-900 font-medium">Produtos</a>
+      <a href="#filosofia" onclick="closeMobileMenu()" class="block py-2 text-botanical-900 font-medium">Nossa Filosofia</a>
+      <a href="#ingredientes" onclick="closeMobileMenu()" class="block py-2 text-botanical-900 font-medium">Ingredientes Verdes</a>
+      <a href="#avaliacoes" onclick="closeMobileMenu()" class="block py-2 text-botanical-900 font-medium">Depoimentos</a>
+      <a href="#contato" onclick="closeMobileMenu()" class="block py-2 text-botanical-900 font-medium">Contato</a>
+      <div class="pt-3 border-t border-botanical-900/10">
+        <button onclick="closeMobileMenu(); openModal('newsletterModal')" class="w-full text-center py-2.5 text-botanical-800 bg-botanical-200/60 rounded-xl font-bold text-xs uppercase tracking-wider">
+          Ganhar 15% OFF no Clube Verde
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="relative min-h-screen flex items-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <!-- Image Background with Gradient Overlay -->
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1608248597263-0057e43a4522?auto=format&fit=crop&w=2000&q=80" alt="Plantas botânicas e textura natural" class="w-full h-full object-cover">
+      <div class="absolute inset-0 hero-gradient"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-8 text-cream-50 space-y-6 sm:space-y-8">
+        
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-botanical-500/20 border border-botanical-300/30 backdrop-blur-md text-xs sm:text-sm font-medium text-botanical-200">
+          <i class="fa-solid fa-seedling text-botanical-300"></i>
+          <span>Alta Cosmética Botânica & Fitoativos Orgânicos</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-normal leading-none tracking-tight">
+          A pureza viva da floresta <br class="hidden sm:inline">
+          <span class="italic font-normal text-botanical-200">para o ritual da sua pele.</span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-cream-100/90 max-w-2xl font-light leading-relaxed">
+          Formulações limpas, veganas e biodegradáveis enriquecidas com extratos de flor de lótus, esqualano vegetal, matcha e óleos essenciais puros da Amazônia.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-2">
+          <a href="#produtos" class="bg-botanical-300 hover:bg-botanical-200 text-botanical-950 font-bold px-8 py-4 rounded-full text-sm sm:text-base text-center shadow-lg transition-all hover:scale-[1.02] flex items-center justify-center gap-2">
+            <span>Explorar Coleção</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </a>
+          <a href="#filosofia" class="border border-cream-100/30 hover:bg-cream-100/10 text-cream-50 font-semibold px-8 py-4 rounded-full text-sm sm:text-base text-center transition-all flex items-center justify-center gap-2 backdrop-blur-sm">
+            <span>Conhecer Ciência Verde</span>
+          </a>
+        </div>
+
+        <!-- Sustainability Seals -->
+        <div class="pt-8 border-t border-cream-100/20 grid grid-cols-3 sm:grid-cols-3 gap-4 max-w-lg">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-cream-50/10 backdrop-blur-md flex items-center justify-center text-botanical-300">
+              <i class="fa-solid fa-spa"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-cream-50 uppercase tracking-wider">100% Vegano</h4>
+              <p class="text-[11px] text-cream-200/70">Livre de crueldade</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-cream-50/10 backdrop-blur-md flex items-center justify-center text-botanical-300">
+              <i class="fa-solid fa-recycle"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-cream-50 uppercase tracking-wider">Reciclável</h4>
+              <p class="text-[11px] text-cream-200/70">Embalagem zero plástico</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-cream-50/10 backdrop-blur-md flex items-center justify-center text-botanical-300">
+              <i class="fa-solid fa-flask"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-cream-50 uppercase tracking-wider">Sem Toxinas</h4>
+              <p class="text-[11px] text-cream-200/70">Sem parabenos ou sulfatos</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRODUCTS SECTION WITH FILTERS ==================== -->
+  <section id="produtos" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div class="space-y-3 max-w-xl">
+        <span class="text-botanical-600 text-xs font-bold tracking-widest uppercase">Coleção Botânica</span>
+        <h2 class="text-3xl sm:text-5xl font-serif text-botanical-950 font-normal">Cuidados Puros para Sua Pele</h2>
+        <p class="text-slate-600 text-sm">Desenvolvidos em pequenos lotes artesanais para preservar o frescor e a potência dos fitoativos.</p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex flex-wrap gap-2 bg-cream-200/60 p-1.5 rounded-2xl border border-botanical-900/10 self-start md:self-auto">
+        <button onclick="filterProducts('all')" class="filter-btn active text-xs font-bold px-4 py-2.5 rounded-xl transition-all bg-botanical-800 text-cream-50 shadow-sm" data-category="all">Todos</button>
+        <button onclick="filterProducts('rosto')" class="filter-btn text-xs font-medium text-botanical-900 px-4 py-2.5 rounded-xl hover:bg-cream-100 transition-all" data-category="rosto">Rosto</button>
+        <button onclick="filterProducts('corpo')" class="filter-btn text-xs font-medium text-botanical-900 px-4 py-2.5 rounded-xl hover:bg-cream-100 transition-all" data-category="corpo">Corpo</button>
+        <button onclick="filterProducts('seruns')" class="filter-btn text-xs font-medium text-botanical-900 px-4 py-2.5 rounded-xl hover:bg-cream-100 transition-all" data-category="seruns">Séruns & Óleos</button>
+        <button onclick="filterProducts('kits')" class="filter-btn text-xs font-medium text-botanical-900 px-4 py-2.5 rounded-xl hover:bg-cream-100 transition-all" data-category="kits">Kits Rituais</button>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      
+      <!-- Product 1 -->
+      <div class="product-card bg-cream-100 border border-botanical-900/10 rounded-3xl overflow-hidden hover:shadow-xl hover:border-botanical-400 transition-all duration-300 flex flex-col group" data-category="seruns">
+        <div class="relative overflow-hidden aspect-square bg-botanical-50">
+          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80" alt="Sérum Esqualano & Matcha" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-4 left-4 bg-botanical-800 text-cream-50 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Bestseller</span>
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
+          <div>
+            <div class="flex items-center gap-1 text-botanical-600 text-xs mb-2">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <span class="text-slate-500 text-[11px] ml-1">(128)</span>
+            </div>
+            <h3 class="font-serif font-semibold text-lg text-botanical-950 group-hover:text-botanical-600 transition-colors">Sérum Facial Esqualano & Matcha Orgânico</h3>
+            <p class="text-xs text-slate-600 line-clamp-2 mt-1">Hidratação profunda e ação antioxidante com fitoextrato celular.</p>
+          </div>
+          <div class="pt-4 border-t border-botanical-900/10 flex items-center justify-between">
+            <span class="text-xl font-serif font-bold text-botanical-900">R$ 149,00</span>
+            <button onclick="addToCart(1, 'Sérum Esqualano & Matcha', 149.00, 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=400&q=80')" class="bg-botanical-700 hover:bg-botanical-600 text-cream-50 p-3 rounded-2xl text-xs font-semibold transition-colors flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cart-plus"></i>
+              <span>Adicionar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card bg-cream-100 border border-botanical-900/10 rounded-3xl overflow-hidden hover:shadow-xl hover:border-botanical-400 transition-all duration-300 flex flex-col group" data-category="rosto">
+        <div class="relative overflow-hidden aspect-square bg-botanical-50">
+          <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=80" alt="Creme Facial Flor de Lótus" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
+          <div>
+            <div class="flex items-center gap-1 text-botanical-600 text-xs mb-2">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <span class="text-slate-500 text-[11px] ml-1">(94)</span>
+            </div>
+            <h3 class="font-serif font-semibold text-lg text-botanical-950 group-hover:text-botanical-600 transition-colors">Creme Noturno Flor de Lótus & Rosa Mosqueta</h3>
+            <p class="text-xs text-slate-600 line-clamp-2 mt-1">Regeneração celular intensiva enquanto você dorme.</p>
+          </div>
+          <div class="pt-4 border-t border-botanical-900/10 flex items-center justify-between">
+            <span class="text-xl font-serif font-bold text-botanical-900">R$ 128,00</span>
+            <button onclick="addToCart(2, 'Creme Flor de Lótus', 128.00, 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=400&q=80')" class="bg-botanical-700 hover:bg-botanical-600 text-cream-50 p-3 rounded-2xl text-xs font-semibold transition-colors flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cart-plus"></i>
+              <span>Adicionar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card bg-cream-100 border border-botanical-900/10 rounded-3xl overflow-hidden hover:shadow-xl hover:border-botanical-400 transition-all duration-300 flex flex-col group" data-category="corpo">
+        <div class="relative overflow-hidden aspect-square bg-botanical-50">
+          <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=800&q=80" alt="Esfoliante de Salvia & Argila Verde" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
+          <div>
+            <div class="flex items-center gap-1 text-botanical-600 text-xs mb-2">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+              <span class="text-slate-500 text-[11px] ml-1">(62)</span>
+            </div>
+            <h3 class="font-serif font-semibold text-lg text-botanical-950 group-hover:text-botanical-600 transition-colors">Esfoliante Corporal Salvia & Argila Verde</h3>
+            <p class="text-xs text-slate-600 line-clamp-2 mt-1">Desintoxica a pele e estimula a microcirculação celular.</p>
+          </div>
+          <div class="pt-4 border-t border-botanical-900/10 flex items-center justify-between">
+            <span class="text-xl font-serif font-bold text-botanical-900">R$ 89,00</span>
+            <button onclick="addToCart(3, 'Esfoliante Salvia & Argila', 89.00, 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=400&q=80')" class="bg-botanical-700 hover:bg-botanical-600 text-cream-50 p-3 rounded-2xl text-xs font-semibold transition-colors flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cart-plus"></i>
+              <span>Adicionar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card bg-cream-100 border border-botanical-900/10 rounded-3xl overflow-hidden hover:shadow-xl hover:border-botanical-400 transition-all duration-300 flex flex-col group" data-category="kits">
+        <div class="relative overflow-hidden aspect-square bg-botanical-50">
+          <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" alt="Kit Ritual Detox Floresta" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-4 left-4 bg-botanical-600 text-cream-50 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Economize 20%</span>
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
+          <div>
+            <div class="flex items-center gap-1 text-botanical-600 text-xs mb-2">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <span class="text-slate-500 text-[11px] ml-1">(210)</span>
+            </div>
+            <h3 class="font-serif font-semibold text-lg text-botanical-950 group-hover:text-botanical-600 transition-colors">Kit Ritual Completo Detox & Vitalidade</h3>
+            <p class="text-xs text-slate-600 line-clamp-2 mt-1">Inclui Sérum, Creme, Névoa Botânica e Gua Sha de Quartzo Verde.</p>
+          </div>
+          <div class="pt-4 border-t border-botanical-900/10 flex items-center justify-between">
+            <span class="text-xl font-serif font-bold text-botanical-900">R$ 289,00</span>
+            <button onclick="addToCart(4, 'Kit Ritual Detox Floresta', 289.00, 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&q=80')" class="bg-botanical-700 hover:bg-botanical-600 text-cream-50 p-3 rounded-2xl text-xs font-semibold transition-colors flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cart-plus"></i>
+              <span>Adicionar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== PHILOSOPHY & GREEN SCIENCE SECTION ==================== -->
+  <section id="filosofia" class="py-24 bg-botanical-900 text-cream-50 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <!-- Left Column: Images Collage -->
+        <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=600&q=80" alt="Ingredientes naturais e óleo botânico" class="rounded-3xl shadow-2xl object-cover h-64 w-full border border-botanical-400/20">
+            <div class="bg-botanical-800 p-6 rounded-3xl border border-botanical-400/20">
+              <span class="text-3xl font-serif font-bold text-botanical-300">100%</span>
+              <p class="text-xs text-cream-200 mt-1">Ingredientes rastreáveis de colheita ecológica sustentável.</p>
+            </div>
+          </div>
+          <div class="space-y-4 pt-8">
+            <div class="bg-botanical-700 p-6 rounded-3xl border border-botanical-400/20">
+              <span class="text-3xl font-serif font-bold text-botanical-300">0%</span>
+              <p class="text-xs text-cream-200 mt-1">Zero fragrâncias sintéticas, parabenos, petroquímicos ou microplásticos.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80" alt="Processo de extração limpa" class="rounded-3xl shadow-2xl object-cover h-64 w-full border border-botanical-400/20">
+          </div>
+        </div>
+
+        <!-- Right Column: Philosophy Content -->
+        <div class="lg:col-span-6 space-y-6">
+          <span class="text-botanical-300 text-xs font-bold tracking-widest uppercase">Nossa Filosofia & Ciência Verde</span>
+          
+          <h2 class="text-3xl sm:text-5xl font-serif font-normal text-cream-50 leading-tight">
+            A alquimia entre a sabedoria das plantas e a biotectonologia sustentável.
+          </h2>
+
+          <p class="text-cream-200/80 text-sm sm:text-base leading-relaxed font-light">
+            Acreditamos que a verdadeira beleza floresce quando respeitamos o ritmo biológico da natureza. Nossas fórmulas são sintetizadas a partir de extrações limpas sem solventes tóxicos, conservando a integridade molecular de cada planta.
+          </p>
+
+          <div class="space-y-4 pt-4">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-2xl bg-botanical-600 text-cream-50 flex items-center justify-center shrink-0 mt-1">
+                <i class="fa-solid fa-vial"></i>
+              </div>
+              <div>
+                <h4 class="font-serif font-semibold text-lg text-cream-50">Extração a Frio de Alta Pureza</h4>
+                <p class="text-xs text-cream-200/70 leading-relaxed mt-0.5">Mantém os fitoativos vivos e com biodisponibilidade máxima para absorção celular.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-2xl bg-botanical-600 text-cream-50 flex items-center justify-center shrink-0 mt-1">
+                <i class="fa-solid fa-tree"></i>
+              </div>
+              <div>
+                <h4 class="font-serif font-semibold text-lg text-cream-50">Compromisso com o Reflorestamento</h4>
+                <p class="text-xs text-cream-200/70 leading-relaxed mt-0.5">A cada produto vendido, plantamos uma árvore nativa em áreas de restauração da Mata Atlântica.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BOTANICAL INGREDIENTS SECTION ==================== -->
+  <section id="ingredientes" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+      <span class="text-botanical-600 text-xs font-bold tracking-widest uppercase">Ativos da Natureza</span>
+      <h2 class="text-3xl sm:text-5xl font-serif font-normal text-botanical-950">Ingredientes Verdes em Destaque</h2>
+      <p class="text-slate-600 text-sm">A seleção vegetal mais potente para nutrir e equilibrar a microbiota da sua pele.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <div class="bg-cream-100 p-8 rounded-3xl border border-botanical-900/10 space-y-4 hover:border-botanical-400 transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-botanical-200 text-botanical-800 flex items-center justify-center text-2xl font-serif font-bold">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <h3 class="font-serif font-bold text-xl text-botanical-950">Esqualano de Oliva</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Biocompatível com os lipídios naturais da pele. Restaura a barreira cutânea sem obstruir os poros, proporcionando toque aveludado instantâneo.
+        </p>
+        <span class="inline-block text-[11px] font-bold text-botanical-600 uppercase tracking-wider">Ação: Hidratação & Elasticidade</span>
+      </div>
+
+      <div class="bg-cream-100 p-8 rounded-3xl border border-botanical-900/10 space-y-4 hover:border-botanical-400 transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-botanical-200 text-botanical-800 flex items-center justify-center text-2xl font-serif font-bold">
+          <i class="fa-solid fa-seedling"></i>
+        </div>
+        <h3 class="font-serif font-bold text-xl text-botanical-950">Matcha Orgânico Certificado</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Rico em polifenóis e EGCG. Combate os radicais livres causados pela poluição e estresse urbano, acalmando vermelhidões.
+        </p>
+        <span class="inline-block text-[11px] font-bold text-botanical-600 uppercase tracking-wider">Ação: Antioxidante & Detox</span>
+      </div>
+
+      <div class="bg-cream-100 p-8 rounded-3xl border border-botanical-900/10 space-y-4 hover:border-botanical-400 transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-botanical-200 text-botanical-800 flex items-center justify-center text-2xl font-serif font-bold">
+          <i class="fa-solid fa-spa"></i>
+        </div>
+        <h3 class="font-serif font-bold text-xl text-botanical-950">Óleo de Rosa Mosqueta Selvagem</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Pressionado a frio, rico em Ácido Trans-Retinoico natural e Ômegas 3, 6 e 9. Atenua manchas e estimula a regeneração do colágeno.
+        </p>
+        <span class="inline-block text-[11px] font-bold text-botanical-600 uppercase tracking-wider">Ação: Regeneração & Luminosidade</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== TESTIMONIALS SECTION ==================== -->
+  <section id="avaliacoes" class="py-24 bg-botanical-100/60 border-y border-botanical-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+        <span class="text-botanical-600 text-xs font-bold tracking-widest uppercase">Comunidade Verde</span>
+        <h2 class="text-3xl sm:text-5xl font-serif font-normal text-botanical-950">O que Dizem sobre Nossos Rituais</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <div class="bg-cream-50 p-8 rounded-3xl border border-botanical-900/10 space-y-4 shadow-sm">
+          <div class="flex text-botanical-600 text-xs gap-1">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-slate-700 text-xs italic leading-relaxed">
+            "Minha pele sensível finalmente encontrou a paz! O Sérum de Matcha reduziu o rubor do meu rosto em apenas uma semana. Não troco por nenhum cosmético convencional."
+          </p>
+          <div class="pt-4 border-t border-botanical-900/10 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-botanical-200 text-botanical-800 font-bold flex items-center justify-center text-xs">CM</div>
+            <div>
+              <h5 class="font-serif font-bold text-sm text-botanical-950">Clara Mendes</h5>
+              <p class="text-[11px] text-slate-500">Cliente Verificada</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-cream-50 p-8 rounded-3xl border border-botanical-900/10 space-y-4 shadow-sm">
+          <div class="flex text-botanical-600 text-xs gap-1">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-slate-700 text-xs italic leading-relaxed">
+            "Saber que a embalagem é 100% compostável e os produtos não agridem os rios me deixa extremamente tranquila. O cheiro de rosas naturais é apaixonante!"
+          </p>
+          <div class="pt-4 border-t border-botanical-900/10 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-botanical-200 text-botanical-800 font-bold flex items-center justify-center text-xs">LA</div>
+            <div>
+              <h5 class="font-serif font-bold text-sm text-botanical-950">Luísa Albuquerque</h5>
+              <p class="text-[11px] text-slate-500">Cliente Verificada</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-cream-50 p-8 rounded-3xl border border-botanical-900/10 space-y-4 shadow-sm">
+          <div class="flex text-botanical-600 text-xs gap-1">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-slate-700 text-xs italic leading-relaxed">
+            "O Kit Ritual Detox virou meu momento sagrado de autocuidado após o trabalho. A textura do creme e do Gua Sha fazem milagres."
+          </p>
+          <div class="pt-4 border-t border-botanical-900/10 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-botanical-200 text-botanical-800 font-bold flex items-center justify-center text-xs">BR</div>
+            <div>
+              <h5 class="font-serif font-bold text-sm text-botanical-950">Beatriz Rocha</h5>
+              <p class="text-[11px] text-slate-500">Cliente Verificada</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT / FORM SECTION ==================== -->
+  <section id="contato" class="py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-botanical-900 text-cream-50 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-5 space-y-4">
+          <span class="text-botanical-300 text-xs font-bold tracking-widest uppercase">Fale Conosco</span>
+          <h2 class="text-3xl font-serif font-bold text-cream-50">Dúvidas sobre o seu Ritual?</h2>
+          <p class="text-xs text-cream-200/80 leading-relaxed">
+            Nossa equipe de especialistas em fitocosmética está pronta para recomendar a rotina perfeita para o seu tipo de pele.
+          </p>
+
+          <div class="space-y-2 pt-4 text-xs text-cream-200">
+            <p><i class="fa-solid fa-envelope text-botanical-300 mr-2"></i> contato@verdepureza.com.br</p>
+            <p><i class="fa-solid fa-phone text-botanical-300 mr-2"></i> +55 (11) 98765-4321</p>
+            <p><i class="fa-solid fa-location-dot text-botanical-300 mr-2"></i> Alameda das Orquídeas, 102 - SP</p>
+          </div>
+        </div>
+
+        <div class="md:col-span-7 bg-botanical-800/80 p-6 sm:p-8 rounded-2xl border border-botanical-400/20">
+          <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-cream-200 mb-1">Nome Completo</label>
+              <input type="text" required placeholder="Seu nome" class="w-full px-4 py-3 rounded-xl bg-botanical-950/60 border border-botanical-400/30 text-cream-50 placeholder-cream-200/40 text-xs focus:outline-none focus:border-botanical-300">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-cream-200 mb-1">E-mail</label>
+              <input type="email" required placeholder="seu@email.com" class="w-full px-4 py-3 rounded-xl bg-botanical-950/60 border border-botanical-400/30 text-cream-50 placeholder-cream-200/40 text-xs focus:outline-none focus:border-botanical-300">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-cream-200 mb-1">Mensagem</label>
+              <textarea rows="3" required placeholder="Como podemos te ajudar hoje?" class="w-full px-4 py-3 rounded-xl bg-botanical-950/60 border border-botanical-400/30 text-cream-50 placeholder-cream-200/40 text-xs focus:outline-none focus:border-botanical-300 resize-none"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-3.5 bg-botanical-300 hover:bg-botanical-200 text-botanical-950 font-bold rounded-xl text-xs uppercase tracking-wider transition-colors">
+              Enviar Mensagem
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-botanical-950 text-cream-200/80 pt-16 pb-12 border-t border-botanical-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-botanical-600 text-cream-50 flex items-center justify-center text-sm">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <span class="font-serif text-lg font-bold text-cream-50">VERDE PUREZA</span>
+        </div>
+        <p class="text-xs text-cream-200/70 leading-relaxed">
+          Cosméticos botânicos conscientemente elaborados no Brasil para nutrir a pele e proteger o planeta.
+        </p>
+        <div class="flex gap-4 text-botanical-300">
+          <a href="#" class="hover:text-cream-50 transition-colors"><i class="fa-brands fa-instagram text-base"></i></a>
+          <a href="#" class="hover:text-cream-50 transition-colors"><i class="fa-brands fa-pinterest text-base"></i></a>
+          <a href="#" class="hover:text-cream-50 transition-colors"><i class="fa-brands fa-tiktok text-base"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-cream-50 text-xs font-bold uppercase tracking-widest mb-4">Navegação</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a href="#produtos" class="hover:text-botanical-300 transition-colors">Produtos</a></li>
+          <li><a href="#filosofia" class="hover:text-botanical-300 transition-colors">Nossa Filosofia</a></li>
+          <li><a href="#ingredientes" class="hover:text-botanical-300 transition-colors">Ingredientes Verdes</a></li>
+          <li><a href="#avaliacoes" class="hover:text-botanical-300 transition-colors">Depoimentos</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-cream-50 text-xs font-bold uppercase tracking-widest mb-4">Sustentabilidade</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a href="#" class="hover:text-botanical-300 transition-colors">Relatório de Impacto</a></li>
+          <li><a href="#" class="hover:text-botanical-300 transition-colors">Programa de Logística Reversa</a></li>
+          <li><a href="#" class="hover:text-botanical-300 transition-colors">Certificação Vegana</a></li>
+          <li><a href="#" class="hover:text-botanical-300 transition-colors">Reflorestamento Ativo</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-cream-50 text-xs font-bold uppercase tracking-widest mb-4">Pagamento Seguro</h4>
+        <div class="flex flex-wrap gap-2 text-2xl text-cream-200/60 mb-4">
+          <i class="fa-brands fa-cc-visa"></i>
+          <i class="fa-brands fa-cc-mastercard"></i>
+          <i class="fa-solid fa-pix"></i>
+          <i class="fa-solid fa-barcode"></i>
+        </div>
+        <p class="text-[11px] text-cream-200/50">Entrega sustentável com pegada neutra de carbono em todo o Brasil.</p>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-botanical-900 text-center text-xs text-cream-200/40">
+      <p>&copy; 2026 Verde Pureza & Botanicals. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== SHOPPING CART SLIDE-OVER DRAWER ==================== -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden pointer-events-none transition-opacity duration-300 opacity-0">
+    <!-- Backdrop -->
+    <div id="cartBackdrop" onclick="toggleCartDrawer()" class="absolute inset-0 bg-botanical-950/60 backdrop-blur-sm transition-opacity"></div>
+
+    <div class="fixed inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
+      <div id="cartPanel" class="w-screen max-w-md bg-cream-50 shadow-2xl flex flex-col justify-between transform translate-x-full transition-transform duration-300">
+        
+        <!-- Cart Header -->
+        <div class="p-6 bg-botanical-900 text-cream-50 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-bag-shopping text-botanical-300"></i>
+            <h3 class="font-serif text-lg font-bold">Seu Ritual Verde</h3>
+          </div>
+          <button onclick="toggleCartDrawer()" class="text-cream-200/80 hover:text-cream-50 text-xl">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cartItemsContainer" class="p-6 flex-grow overflow-y-auto space-y-4">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- Cart Footer -->
+        <div class="p-6 bg-cream-100 border-t border-botanical-900/10 space-y-4">
+          <div class="space-y-2 text-xs text-slate-600">
+            <div class="flex justify-between">
+              <span>Subtotal</span>
+              <span id="cartSubtotal" class="font-bold text-botanical-950">R$ 0,00</span>
+            </div>
+            <div class="flex justify-between text-botanical-600">
+              <span>Frete Verde Sustentável</span>
+              <span class="font-bold">GRÁTIS</span>
+            </div>
+            <div class="flex justify-between text-sm font-bold text-botanical-950 pt-2 border-t border-botanical-900/10">
+              <span>Total</span>
+              <span id="cartTotal" class="text-lg font-serif font-bold text-botanical-900">R$ 0,00</span>
+            </div>
+          </div>
+
+          <button onclick="handleCheckout()" class="w-full py-4 bg-botanical-700 hover:bg-botanical-600 text-cream-50 font-bold rounded-2xl text-xs uppercase tracking-wider transition-colors shadow-lg shadow-botanical-900/10 flex items-center justify-center gap-2">
+            <span>Finalizar Compra Ecológica</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== NEWSLETTER / CLUBE VERDE MODAL ==================== -->
+  <div id="newsletterModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-botanical-950/70 backdrop-blur-sm hidden">
+    <div class="bg-cream-50 border border-botanical-900/20 rounded-3xl max-w-lg w-full p-8 relative shadow-2xl overflow-hidden">
+      
+      <button onclick="closeModal('newsletterModal')" class="absolute top-6 right-6 text-slate-400 hover:text-botanical-950 text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="text-center space-y-4">
+        <div class="w-14 h-14 rounded-full bg-botanical-100 text-botanical-700 flex items-center justify-center text-2xl mx-auto">
+          <i class="fa-solid fa-gift"></i>
+        </div>
+
+        <span class="text-botanical-600 text-xs font-bold tracking-widest uppercase">Clube Verde Exclusivo</span>
+        <h3 class="text-2xl font-serif font-bold text-botanical-950">Ganhe 15% OFF na Sua Primeira Compra</h3>
+        <p class="text-xs text-slate-600 leading-relaxed max-w-xs mx-auto">
+          Inscreva-se para receber rituais de beleza limpa, lançamentos em primeira mão e ofertas exclusivas.
+        </p>
+
+        <form onsubmit="handleNewsletterSubmit(event)" class="space-y-3 pt-2">
+          <input type="email" required placeholder="Digite seu melhor e-mail" class="w-full px-4 py-3.5 rounded-xl bg-cream-100 border border-botanical-900/20 text-botanical-950 text-xs focus:outline-none focus:border-botanical-600">
+          <button type="submit" class="w-full py-3.5 bg-botanical-800 hover:bg-botanical-700 text-cream-50 font-bold rounded-xl text-xs uppercase tracking-wider transition-colors shadow-md">
+            Resgatar Cupom de 15%
+          </button>
+        </form>
+
+        <p class="text-[10px] text-slate-400">Ao se inscrever, você concorda com nossa política de privacidade ecológica.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION SYSTEM ==================== -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-botanical-900 text-cream-50 border border-botanical-400/30 px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="text-botanical-300 text-lg">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+    <span id="toastMsg" class="text-xs font-medium">Notificação</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    // Shopping Cart State
+    let cart = [];
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.add('hidden');
+    }
+
+    // Modal Control Functions
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // Cart Slide-over Controls
+    function toggleCartDrawer() {
+      const drawer = document.getElementById('cartDrawer');
+      const panel = document.getElementById('cartPanel');
+      
+      const isOpen = !panel.classList.contains('translate-x-full');
+
+      if (isOpen) {
+        panel.classList.add('translate-x-full');
+        drawer.classList.add('opacity-0', 'pointer-events-none');
+      } else {
+        drawer.classList.remove('opacity-0', 'pointer-events-none');
+        panel.classList.remove('translate-x-full');
+      }
+    }
+
+    // Filter Products by Category
+    function filterProducts(category) {
+      const cards = document.querySelectorAll('.product-card');
+      const buttons = document.querySelectorAll('.filter-btn');
+
+      buttons.forEach(btn => {
+        if (btn.getAttribute('data-category') === category) {
+          btn.classList.add('bg-botanical-800', 'text-cream-50', 'shadow-sm');
+          btn.classList.remove('text-botanical-900', 'hover:bg-cream-100');
+        } else {
+          btn.classList.remove('bg-botanical-800', 'text-cream-50', 'shadow-sm');
+          btn.classList.add('text-botanical-900', 'hover:bg-cream-100');
+        }
+      });
+
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // Add to Cart Logic
+    function addToCart(id, title, price, image) {
+      const existingItem = cart.find(item => item.id === id);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ id, title, price, image, quantity: 1 });
+      }
+
+      updateCartUI();
+      showToast(`"${title}" foi adicionado ao seu carrinho!`);
+    }
+
+    // Remove or Update Cart Items
+    function updateQuantity(id, change) {
+      const item = cart.find(item => item.id === id);
+      if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+          cart = cart.filter(i => i.id !== id);
+        }
+      }
+      updateCartUI();
+    }
+
+    // Update Cart UI Drawer Component
+    function updateCartUI() {
+      const container = document.getElementById('cartItemsContainer');
+      const badge = document.getElementById('cartCountBadge');
+      const subtotalEl = document.getElementById('cartSubtotal');
+      const totalEl = document.getElementById('cartTotal');
+
+      const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+      const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+      badge.innerText = totalItems;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-16 space-y-3">
+            <div class="w-16 h-16 rounded-full bg-botanical-100 text-botanical-600 flex items-center justify-center text-2xl mx-auto">
+              <i class="fa-solid fa-seedling"></i>
+            </div>
+            <p class="font-serif font-semibold text-botanical-950">Seu carrinho está vazio.</p>
+            <p class="text-xs text-slate-500">Escolha um produto botânico para iniciar seu ritual de cuidado.</p>
+          </div>
+        `;
+      } else {
+        container.innerHTML = cart.map(item => `
+          <div class="flex items-center gap-4 p-3 bg-cream-100 rounded-2xl border border-botanical-900/10">
+            <img src="${item.image}" alt="${item.title}" class="w-16 h-16 rounded-xl object-cover">
+            <div class="flex-grow">
+              <h4 class="font-serif font-bold text-xs text-botanical-950 line-clamp-1">${item.title}</h4>
+              <p class="text-xs text-botanical-700 font-bold mt-0.5">R$ ${(item.price * item.quantity).toFixed(2)}</p>
+              
+              <div class="flex items-center gap-2 mt-2">
+                <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-cream-200 text-botanical-950 text-xs font-bold flex items-center justify-center hover:bg-botanical-200">-</button>
+                <span class="text-xs font-bold px-1">${item.quantity}</span>
+                <button onclick="updateQuantity(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-cream-200 text-botanical-950 text-xs font-bold flex items-center justify-center hover:bg-botanical-200">+</button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      subtotalEl.innerText = `R$ ${totalPrice.toFixed(2)}`;
+      totalEl.innerText = `R$ ${totalPrice.toFixed(2)}`;
+    }
+
+    // Checkout Action
+    function handleCheckout() {
+      if (cart.length === 0) {
+        showToast('Adicione ao menos um produto antes de finalizar a compra.');
+        return;
+      }
+      toggleCartDrawer();
+      cart = [];
+      updateCartUI();
+      showToast('Pedido realizado com sucesso! Obrigado por apoiar a beleza sustentável.');
+    }
+
+    // Form Event Handlers
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      e.target.reset();
+      showToast('Mensagem enviada com sucesso! Responderemos em até 24h.');
+    }
+
+    function handleNewsletterSubmit(e) {
+      e.preventDefault();
+      closeModal('newsletterModal');
+      e.target.reset();
+      showToast('Bem-vindo ao Clube Verde! Seu cupom de 15% é VERDE15.');
+    }
+
+    // Custom Toast Notification System
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      
+      toastMsg.innerText = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 4000);
+    }
+
+    // Initialize UI State
+    updateCartUI();
+  </script>
+</body>
+</html>
